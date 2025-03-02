@@ -264,6 +264,26 @@ Here's a table that specify either GraphQL or REST is better:
 
 ## Section 2: WebSockets for Real-time Communication
 
+Consider the following two workflow, and see how they work differently:
+
+> 1. User wants to log out all the devices that has his account.
+
+**Websocket**: Server gets the command, and ask other clients to sign out themselves
+<img width="1041" alt="Screenshot 2025-02-14 at 3 26 38 AM" src="https://github.com/user-attachments/assets/78966a35-1f8d-4d39-9ec7-cd1b6a468196" />
+
+**REST**: Client keep asking server, once the state change on server, client will know at next communication, and proceed corresponding
+<img width="1041" alt="Screenshot 2025-02-14 at 3 26 15 AM" src="https://github.com/user-attachments/assets/2a9a8762-2fd8-4dbf-b7b5-64ad8b68faa3" />
+
+
+> 2. Discord publish a new version of the app, which tells user to update
+
+**REST**: Instead of frequent polling, it might contact to server per day, or twice a day, etc.
+<img width="793" alt="Screenshot 2025-02-14 at 3 32 21 AM" src="https://github.com/user-attachments/assets/b38a66f4-ba38-4286-a20f-1b05f46b20d2" />
+
+**Websocket**: Establishing the connection all the time, but there might only be one message every month.
+<img width="793" alt="Screenshot 2025-02-14 at 3 33 45 AM" src="https://github.com/user-attachments/assets/4f29d5c6-f29a-42f2-8d2e-fbbfb5404222" />
+
+
 ## Section 3: Technology Recommendation and Justification
 
 ## Reference:
