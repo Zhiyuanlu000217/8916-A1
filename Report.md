@@ -264,6 +264,26 @@ Here's a table that specify either GraphQL or REST is better:
 
 ## Section 2: WebSockets for Real-time Communication
 
+1. **Event Subscription**: WebSocket allows users to receive real-time notifications when certain events occur, such as:
+   - **New messages**: Notifying users when a new message arrives.
+   - **Message updates**: Receiving updates when a message is edited or deleted.
+   - **User mentions**: Sending alerts when a user is mentioned in a group chat.
+   - **Channel updates**: Notifying users about changes in channels, roles, or settings.
+   - **Presence updates**: Informing users when their friends come online or change their status.
+
+2. Service status polling: The server will keep tracking the current service status such as latency when user connected to the video stream or voice channel.
+3. Account status: There's an option that allows user to log out at all other devices, which can be done with websocket
+4. Event bridge: Trigger third-party service upon specific event, such as discord bot can be programmed to react on certain events, this is done by websocket.
+
+Note: Unlike simpler real-time communication apps, Discord does not use WebSocket for sending messages directly. Instead, WebSocket is primarily used for event notifications, status updates, and presence tracking.
+
+### Differ from REST and GraphQL
+
+WebSocket is a long-live connection between client and server, it will remain during the app's lifecycle. REST and GraphQL is stateless, undirectional, and it's more like a one-time communicate, which each request is standalone.
+
+Websocket is using TCP protocol, which REST and GraphQL is using HTTP/HTTPS. REST and GraphQL can be used for polling, but still not perfect choice for high-frequency updates. Polling too frequent will increase the bandwidth usage and latency, especially when in the situation that hundres of thouthands users using it at the same time.
+
+
 Consider the following two workflow, and see how they work differently:
 
 > 1. User wants to log out all the devices that has his account.
