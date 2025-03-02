@@ -249,6 +249,18 @@ respond:
   }
 }
 ```
+In this case, the endpoint won't change frequently, and the data that returned is not very complicated, instead, it's a large amount of small objects. REST is actually better in this case, because messages requires caching, and operation like traditional CRUD operation is simpler with REST api.
+
+Here's a table that specify either GraphQL or REST is better:
+
+|       Case        |   Choice   |           Reason            |
+|-------------------|------------|-----------------------------|
+|  Log in/Register  |    REST    |  Simple response, but generally more secure than graphql  |
+|  Get profile      |    GraphQL |  Flexible data query   |
+|  Messaging        |    REST    |  No need for customizing caching rules, and REST works better with flat data like messages.   |
+|  Complex/Nested Data(rules, etc.) | GraphQL | GraphQL can fetch deeply nested data in a single request | 
+|  Third Party development (Discord Bot) | REST | Simple for integration and documentation |
+
 
 ## Section 2: WebSockets for Real-time Communication
 
@@ -277,7 +289,3 @@ Expand the following list in order to see AI's respond.
   >    
   >    </details>
   >    ```
-    
-</details>
-
-
