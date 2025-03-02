@@ -15,7 +15,240 @@
 | Section 2. Websocet workflow      |  Section 2. Differences and use case |
 | Section 3. Justification          |  Section 3. Recommendation |
 
+## Introduction:
+
+For most famous real-time chat applications, such as Discord, WhatsApp, WeChat, we believe they utilize REST, GraphQL and WebSockets for sure. But unfortunately we cannot find single documentation that describes their approach, so we will have to express our thoughts through a fictional product that is based on Discord’s features, but in a simpler way. 
+
+
 ## Section 1: REST and GraphQL for Data Requests and Updates
+
+In the following, we will discuss the common features that Discord have, and compare them by utilizing RESTful and GraphQL. 
+Let's first take a look for a few examples in different scenarios:
+
+> [!NOTE]  
+> Since GraphQL use single `POST /graphql` endpoint, we will only include the `mutation` or `query`.
+
+### Authentication
+#### POST: Login, registration, etc.
+##### Rest
+endpoint: `POST /auth/login` ,
+
+body: 
+```json
+{ "email": "user@example.com", "password": "userpassword" }
+```
+respond: 
+```json
+{ "token": "jwt-token" }
+```
+
+##### GraphQL
+mutation: 
+```graphql
+mutation {
+  login(email: "user@example.com", password: "userpassword") {
+    token
+  }
+}
+```
+
+respond:
+```json
+{
+  "data": {
+    "login": {
+      "token": "jwt-token"
+    }
+  }
+}
+
+```
+### **Error Handling Example**
+#### **REST API Error**
+```json
+{
+  "error": "Invalid credentials",
+  "status": 401
+}
+
+```
+#### **GraphQL API Error**
+```json
+{
+  "errors": [
+    {
+      "message": "User not found",
+      "extensions": { "code": "USER_NOT_FOUND" }
+    }
+  ]
+}
+```
+#### GET: Get user profile
+##### Rest
+endpoint: `GET /user/profile?id={uid}`
+
+respond:
+```json
+{
+  "id": "12345",
+  "username": "user",
+  "avatar": "url_of_image"
+  ...ProfileData
+}
+```
+##### GraphQl
+query: 
+```graphQL
+query GetUserProfile($id: ID!) {
+  user(id: $id) {
+    id
+    username
+    avatar
+  }
+}
+```
+respond:
+```json
+{
+  "data": {
+    "user": {
+      "id": "12345",
+      "username": "user",
+      "avatar": "profile_pic_url"
+    }
+  }
+}
+```
+For this case, when logging in, there's no significant differences between graphql and rest api, because the required field and respond is fixed. But for the getting user profile part, there's a big difference. Imagine this case:
+> In a mature product like discord, there are many props in user's profile, by default, when fetching user profile, REST api will return a huge object that contains all the relative data. If you are in a server that has 5000 members, it will take very long time and a lot space to cache everyone's data, even though you probably only need their name and avatar. With graphQL, you can only fetch the required field as needed.
+
+Although we can modify REST api to return a smaller object, What if suddenly we want to display a new prop, like a badge? We can simply add a field into the graphql query, but we need to do much more changes in order to make REST api.
+
+So in certain cases, graphql is **more flexible** than REST.
+
+Let's take a look at another example:
+
+### Messaging
+#### POST: sending message
+##### REST
+endpoint: `POST /channels/{channel_id}/messages`
+body:
+```json
+{
+  "content": "Hey, check this out!"
+}
+```
+respond:
+```json
+{
+  "id": "00001",
+  "content": "Hey, check this out!",
+  "author": "user001",
+  "timestamp": "2025-02-13T12:00:00Z",
+  ...OtherProps
+}
+```
+##### GraphQL
+mutation:
+```graphql
+mutation {
+  sendMessage(channelId: "000123", content: "Hey, check this out!",
+  }) {
+    id
+    content
+    author {
+      username
+    }
+    timestamp
+  }
+}
+```
+respond:
+```json
+{
+  "data": {
+    "sendMessage": {
+      "id": "000123",
+      "content": "Hey, check this out!",
+      "author": {
+        "username": "user123"
+      },
+      "timestamp": "2025-02-13T12:00:00Z"
+    }
+  }
+}
+```
+#### PATCH: modify a message
+##### REST
+endpoint: `PATCH /channels/{channel_id}/messages/{message_id}`,
+body: `{newContent: "Hey there again!"}`
+respond: 
+```json
+{
+  "data": {
+    "sendMessage": {
+      "id": "000123",
+      "content": "Hey there again!",
+      "author": {
+        "username": "user123"
+      },
+      "timestamp": "2025-02-13T12:30:00Z"
+    }
+  }
+}
+```
+##### GraphQL
+mutation:
+```graphql
+mutation {
+  editMessage(messageId: "000123", content: "Hey there again!") {
+    id
+    content
+    timestamp
+  }
+}
+```
+respond: 
+```json
+{
+  "data": {
+    "editMessage": {
+      "id": "000123",
+      "content": "Hey there again!",
+      "author": {
+        "username": "user123"
+      },
+      "timestamp": "2025-02-13T12:30:00Z"
+    }
+  }
+}
+```
+#### DELETE: delete a message
+##### REST
+endpoint: `DELETE /channels/{channel_id}/messages/{message_id}`,
+respond: `true`
+
+##### GraphQl
+mutation:
+```graphql
+mutation {
+  deleteMessage(messageId: "000123") {
+    success
+    message
+  }
+}
+```
+respond:
+```json
+{
+  "data": {
+    "deleteMessage": {
+      "success": true,
+      "message": "Message deleted successfully"
+    }
+  }
+}
+```
 
 ## Section 2: WebSockets for Real-time Communication
 
