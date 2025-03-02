@@ -306,6 +306,31 @@ Consider the following two workflow, and see how they work differently:
 
 ## Section 3: Technology Recommendation and Justification
 
+### **Recommendation: Best Practices and Future Improvements**
+
+Based on the findings from Section 1 and Section 2, the current architecture provides a solid foundation, but certain optimizations can improve efficiency and scalability.
+
+#### **1. Enhancing WebSocket Stability**
+- **Implementing heartbeat mechanisms** to detect inactive connections and prevent unnecessary disconnects.
+- **Session resumption** to allow users to reconnect without needing to reload all data.
+- **Rate limiting** on WebSocket messages to prevent spam and reduce excessive server load.
+
+#### **2. Improving REST API Efficiency**
+- **Caching frequently requested data** (e.g., user profiles, static server information) to reduce redundant API calls.
+- **Implementing rate limiting** to prevent excessive requests from overloading the system.
+- **Using WebSocket for real-time updates instead of API polling**, reducing unnecessary REST API calls.
+
+#### **3. Optimizing GraphQL Performance**
+- **Limiting nested queries depth** to prevent complex queries from overwhelming the database.
+- **Using persistent queries** to minimize repeated GraphQL parsing and execution time.
+- **Caching common GraphQL queries** to improve response time for frequently accessed data.
+
+By applying these improvements, the system can **reduce latency, optimize bandwidth usage, and scale efficiently** while ensuring a **seamless real-time experience** for users.
+
+---
+
+
+
 ## Reference:
 
 ### Gen AI citation
