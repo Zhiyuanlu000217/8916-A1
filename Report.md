@@ -306,6 +306,36 @@ Consider the following two workflow, and see how they work differently:
 
 ## Section 3: Technology Recommendation and Justification
 
+### Justification
+
+We are going for a hybrid approach, which utilizing REST, GraphQL, and WebSockers together, each one of them is responsible for different tasks. In this way, it balance the performance, flexibility and security.
+
+#### 1. REST API vs. GraphQL
+- REST API is more suitable for:
+  - Authentication and user management, which REST is simpler and more secure, which does not rely on the complex function calling to finish the task.
+  - Message operations such as sending, deleting, and modifying messages. The structure of messages and operations are relatively "stable", which GraphQL can only increase the complexity, but not actually enhancing the performance.
+  - Third-party integrations, including bot interactions and external API calls, using REST is making the integration easier and more straight forward.
+
+- GraphQL is beneficial for:
+  - Fetching complex and nested data structures in a single request (e.g., retrieving user profile, friends, and roles).
+  - Minimizing over-fetching and under-fetching by allowing clients to request only the necessary fields.
+  - Efficient client-side customization without requiring backend modifications.
+
+By combining both, REST API ensures **structured data management**, while GraphQL enhances **data query efficiency** in situations where flexibility is needed.
+
+#### 2. WebSocket vs. REST API
+- WebSocket is essential for real-time features:
+  - Event-driven architecture allows instant updates.
+  - Eliminates unnecessary API polling, reducing server load and improving responsiveness.
+  - Maintains a persistent connection, ensuring live notifications for messages, mentions, and user status updates.
+
+- REST API is still required for:
+  - Sending messages (`POST /channels/{id}/messages`) to ensure data integrity and consistency.
+  - Retrieving message history (`GET /channels/{id}/messages`) when users scroll up in a chat.
+  - Handling secure authentication, which is stateless and requires each request to be validated.
+
+Thus, WebSocket enables real-time communication, while REST API maintains structured data integrity.
+
 ### **Recommendation: Best Practices and Future Improvements**
 
 Based on the findings from Section 1 and Section 2, the current architecture provides a solid foundation, but certain optimizations can improve efficiency and scalability.
