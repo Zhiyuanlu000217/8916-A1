@@ -329,7 +329,9 @@ By applying these improvements, the system can **reduce latency, optimize bandwi
 
 ---
 
+## Demonstration
 
+Our presentation slides is avaliable at: https://docs.google.com/presentation/d/1l2z5QtMLzUWkMGKm08vCXmWulXTKhdK3v-xI2DHiB9c/edit?usp=sharing
 
 ## Reference:
 
