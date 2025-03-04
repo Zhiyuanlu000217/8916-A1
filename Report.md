@@ -1,3 +1,6 @@
+## Video Presentation
+[Watch on YouTube](https://youtu.be/PrsQHDl_G8I)
+
 # Real-time data technology on real-world use case
 
 **Group 6**
