@@ -359,6 +359,14 @@ By applying these improvements, the system can **reduce latency, optimize bandwi
 
 ---
 
+## **Conclusion**
+The combination of **REST API, GraphQL, and WebSocket** is the best approach for handling **real-time messaging, structured data retrieval, and efficient queries**.  
+- **WebSocket** provides **low-latency, real-time updates**.
+- **REST API** ensures **secure authentication and reliable message handling**.
+- **GraphQL** enables **optimized, flexible data fetching**.
+
+With continued **performance optimizations**, including **better connection management, caching, and query optimizations**, the system will be able to **handle large-scale real-time interactions while maintaining efficiency and reliability**.
+
 ## Demonstration
 
 Our presentation slides is avaliable at: https://docs.google.com/presentation/d/1l2z5QtMLzUWkMGKm08vCXmWulXTKhdK3v-xI2DHiB9c/edit?usp=sharing
