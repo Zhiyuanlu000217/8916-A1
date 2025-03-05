@@ -431,6 +431,7 @@ Expand the following list in order to see AI's respond.
 
 <details>
   <summary>4. Is using websocket to monitor the service status(e.g. connection consistency) a potential approach?</summary>
+  
   >  Yes, using WebSockets to monitor service status (such as connection consistency) is a potential approach, but it depends on the specific requirements and trade-offs.
   >
   >  ### Pros of Using WebSockets for Monitoring
