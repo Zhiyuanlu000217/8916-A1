@@ -397,3 +397,66 @@ Expand the following list in order to see AI's respond.
   >    
   >    </details>
   >    ```
+</details>
+
+<details>
+  <summary>2. Does discord use any graphql or websocket techniques?</summary>
+
+  > Discord utilizes WebSocket technology extensively in its products to facilitate real-time communication. The Discord Gateway, responsible for maintaining WebSocket connections, handles     
+  > events such as message creation and user status updates, ensuring instantaneous interactions within the platform. 
+  >  DISCORDENO
+  >
+  > Regarding GraphQL, Discord currently does not offer a public GraphQL API. Discussions among developers have highlighted the potential benefits of adopting GraphQL, such as reduced bandwidth 
+  > usage and the ability to run multiple queries in a single request. However, integrating GraphQL into Discord's existing API would be a substantial undertaking. As of now, Discord continues 
+  > to utilize its REST API for client-server communications. 
+  > GITHUB.COM
+> 
+</details>
+
+<details>
+  <summary>3. Help me translate endpoint: `GET /user/profile?id={uid}` into graphQL</summary>
+  
+  >    ```graphQL
+  >    query GetUserProfile($id: ID!) {
+  >      userProfile(id: $id) {
+  >        id
+  >        name
+  >        email
+  >        avatarUrl
+  >      }
+  >    }
+  >    ```
+>      
+</details>
+
+<details>
+  <summary>4. Is using websocket to monitor the service status(e.g. connection consistency) a potential approach?</summary>
+  >  Yes, using WebSockets to monitor service status (such as connection consistency) is a potential approach, but it depends on the specific requirements and trade-offs.
+  >
+  >  ### Pros of Using WebSockets for Monitoring
+  >  ✅ **Real-time Updates** – WebSockets provide instant feedback on connection status without polling.  
+  >  ✅ **Persistent Connection** – WebSockets maintain a continuous connection, making it easy to detect drops.  
+  >  ✅ **Lower Latency** – Compared to HTTP polling, WebSockets offer faster failure detection.  
+  >  
+  >  ### How It Can Work
+  >  - **Heartbeat/Ping-Pong Messages** – The client and server periodically send "ping" messages, and the other side responds with a "pong." If no response is received within a timeout, the      >   connection is assumed to be lost.  
+  >  - **Reconnect Logic** – If a WebSocket connection closes unexpectedly, the client can attempt to reconnect.  
+  >  - **Status Event Streams** – The server can push status updates when issues arise (e.g., "server overload" messages).  
+  >  
+  >  ### Potential Challenges
+  >  ⚠️ **WebSocket Overhead** – Maintaining many WebSocket connections can be resource-intensive.  
+  >  ⚠️ **Network Instability** – Fluctuations in network conditions may trigger false positives for disconnection events.  
+  >  ⚠️ **Load Balancing Issues** – WebSockets require sticky sessions (or a message broker) to maintain state across multiple servers.  
+  >  
+  >  ### Alternative Approaches
+  >  - **Short Polling**: Periodically send HTTP requests to check the service status.  
+  >  - **Long Polling**: Keep an HTTP request open until the server has a status update.  
+  >  - **gRPC Streaming**: Uses a persistent HTTP/2 stream (like WebSockets but with better built-in error handling).  
+  >  
+  >  If real-time monitoring with low latency is the priority, **WebSockets are a solid choice**, but if scalability and reliability across multiple servers are more critical, alternatives like   >   **gRPC streaming** or managed monitoring solutions (e.g., **Prometheus + Webhooks**) might be better. 🚀
+
+  
+</details>
+
+### Websites:
+- https://discord.com/developers/docs/reference
