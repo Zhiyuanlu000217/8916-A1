@@ -434,22 +434,22 @@ Expand the following list in order to see AI's respond.
   
   >  Yes, using WebSockets to monitor service status (such as connection consistency) is a potential approach, but it depends on the specific requirements and trade-offs.
   >
-  >  ### Pros of Using WebSockets for Monitoring
+  >  Pros of Using WebSockets for Monitoring
   >  ✅ **Real-time Updates** – WebSockets provide instant feedback on connection status without polling.  
   >  ✅ **Persistent Connection** – WebSockets maintain a continuous connection, making it easy to detect drops.  
   >  ✅ **Lower Latency** – Compared to HTTP polling, WebSockets offer faster failure detection.  
   >  
-  >  ### How It Can Work
+  >  How It Can Work
   >  - **Heartbeat/Ping-Pong Messages** – The client and server periodically send "ping" messages, and the other side responds with a "pong." If no response is received within a timeout, the      >   connection is assumed to be lost.  
   >  - **Reconnect Logic** – If a WebSocket connection closes unexpectedly, the client can attempt to reconnect.  
   >  - **Status Event Streams** – The server can push status updates when issues arise (e.g., "server overload" messages).  
   >  
-  >  ### Potential Challenges
+  >  Potential Challenges
   >  ⚠️ **WebSocket Overhead** – Maintaining many WebSocket connections can be resource-intensive.  
   >  ⚠️ **Network Instability** – Fluctuations in network conditions may trigger false positives for disconnection events.  
   >  ⚠️ **Load Balancing Issues** – WebSockets require sticky sessions (or a message broker) to maintain state across multiple servers.  
   >  
-  >  ### Alternative Approaches
+  >  Alternative Approaches
   >  - **Short Polling**: Periodically send HTTP requests to check the service status.  
   >  - **Long Polling**: Keep an HTTP request open until the server has a status update.  
   >  - **gRPC Streaming**: Uses a persistent HTTP/2 stream (like WebSockets but with better built-in error handling).  
